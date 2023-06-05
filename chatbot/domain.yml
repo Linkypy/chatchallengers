@@ -1,0 +1,295 @@
+version: "3.1"
+
+intents:
+  - greet
+  - name_of_user
+  - start_game
+  - choose_object
+  - EXTERNAL_reminder
+  - computer_password
+  - move_bookrack
+  - open_kitchen_door
+  - look_at_kitchen
+  - take_object
+  - combination_lock_code
+  - look_at_postcards
+  - pantry_objects
+  - combine_wire_and_pliers
+  - look_at_pantry_objects
+  - pick_lock
+  - look_at_bathroom
+  - go_to_control_room
+  - repair_climate_machine
+
+entities:
+- name
+- object
+- bookrack
+- password
+- timer
+- kitchen_object
+- combination
+- postcard
+- pantry_object
+- bathroom_object
+- control_room
+- mixture
+
+responses:
+  utter_welcome:
+  - text: "Welcome, whats your name?"
+
+  utter_name:
+  - text: "Hello {name}! Welcome to the escape room! You can interact with items in the game by examining them or picking them up. Also please pay attention to your spelling. If you are ready to play, please type in start."
+
+  utter_start:
+  - text: "You slowly open your eyes and look around the room you found yourself in. Glaring light from the ceiling blinds you as you notice that you are in a lab. Suddenly, panic grips you as you notice that the room is slowly filling with water. With no time to waste, you look around to find a way out. You notice a bed, a desk, a bookshelf, a window and a door. Which one do you want to examine?"
+
+  utter_postcards:
+  - condition:
+    - type: slot
+      name: postcard
+      value: "Venice"
+    text: "Coordinates: 45.4387, 12.3271. Known for its iconic canals, Venice is threatened by rising sea levels, which cause regular flooding, known as 'acqua alta.' The city's delicate lagoon ecosystem and subsidence amplify the challenges it faces from climate change."
+  - condition:
+    - type: slot
+      name: postcard
+      value: "New York"  
+    text: "Coordinates: 40.7128, 74.0060. The city faces various climate-related risks, including sea-level rise, storm surges, and increased frequency of extreme weather events such as hurricanes and heavy rainfall. The city's coastal areas, including parts of Manhattan, Brooklyn, and Queens, are particularly vulnerable to flooding."
+  - condition:
+    - type: slot
+      name: postcard
+      value: "Sydney"
+    text: "Coordinates: 33.8688, 151.2093. Sydney faces the impacts of climate change, including heatwaves, rising sea levels, and increased bushfire risk. The city's coastal areas, iconic beaches, and infrastructure are under threat from these environmental changes." 
+  - condition:
+    - type: slot
+      name: postcard
+      value: "Lagos"
+    text: "Coordinates: 37.1028, 8.6748. Lagos, located in the Algarve region, faces threats from coastal erosion, sea-level rise, and storm surges. The city's popular beaches and tourist infrastructure are at risk due to these climate-related hazards."
+  - condition:
+    - type: slot
+      name: postcard
+      value: "Maldives"
+    text: "Coordinates: 1.924992, 73.399658. The Maldives is a low-lying island nation in the Indian Ocean, and it is particularly vulnerable to rising sea levels. As one of the lowest-lying capitals in the world, Male faces the risk of inundation and coastal erosion due to the increasing threat of sea-level rise."
+
+  utter_lock_opens:
+  - condition:
+    - type: slot
+      name: combination_right
+      value: True
+    text: "You enter the code and try to open the lock ... it opens! You open the door of the pantry and see a lot of utensils like pliers and scissors and canned food."
+  - condition:
+    - type: slot
+      name: combination_right
+      value: False
+    text: "That seems like the wrong combination. The lock doesn't open."
+
+  utter_game_over:
+  - text: "You take the antenna and put it back on the climate machine. The machine starts working again and prompts you to configure its settings. As you already did these settings so many times in the past, you are able to start up the program to immediately start to reverse the effects of climate change. You look out the window at the melting icebergs hoping it is not too late and that they stop melting ... but they don't. You suddenly realise you can't stop climate change anymore. The point of no return has been already reached ...If you, dear player, want to do something about climate change now before it's too late, this website from the United Nations is a good place to start to gather information: https://www.un.org/en/actnow/ten-actions - thanks for playing! Hope you enjoyed! :)"
+
+  utter_control_room:
+  - text: "You enter the control room and immediately spot the climate machine. Memories start coming back of you breaking off its antenna to destroy it. Now it lays next to it on the ground. Your research assistant says: 'Come on, don't just stand there, do something!'"
+
+  utter_has_wire:
+  - condition:
+    - type: slot
+      name: has_wire
+      value: True
+    text: "You just took the wires. Maybe you can do something with it in the future." 
+  - text: "There is no use of taking this with you."
+
+  utter_has_pliers:
+  - condition:
+    - type: slot
+      name: has_pliers
+      value: True
+    text: "You just took the pliers. Maybe you can do something with it in the future." 
+  - text: "There is no use of taking this with you."
+
+  utter_bend_wire:
+  - condition:
+    - type: slot
+      name: has_pliers
+      value: True
+    - type: slot
+      name: has_wire
+      value: True
+    text: "You bend the wire with the pliers. It maybe seems like you could pick a lock with it. It could be worth a try ..." 
+  - text: "It seems like you don't have a wire to use the pliers on. Did you forget to collect it? Maybe go back and take it."
+
+  utter_pick_lock:
+  - condition:
+    - type: slot
+      name: has_pliers
+      value: True
+    - type: slot
+      name: has_wire
+      value: True
+    # - type: slot
+    #   name: wire_bent
+    #   value: True
+    text: "You actually manage to pick the lock with the bent wire. Good job! The door opens and you find yourself in a bathroom. There are just the usual things in there: a toilet, a sink with a mirror above and a shower with the shower curtains pulled."
+  # - condition:
+  #   - type: slot
+  #     name: wire_bent
+  #     value: False
+  #   text: "You can't insert the wire into the lock. Maybe try to bend it with something to make it fit?"
+  #- text: "You probably need something to pick the lock with. Why don't you look around to see if you find something?"
+  - text: "You probably need something to pick the lock with or to combine some things. Why don't you look around to see if you find something?"
+
+  utter_reply_to_password:
+  - condition:
+    - type: slot
+      name: correct_password
+      value: True
+    - type: slot
+      name: object
+      value: "computer"
+    text: "This is the right password. A file on the PC opens. It says that a key is hidden behind the bookrack. Do you want to look behind the rack to look if there is a key?"
+  - condition:
+    - type: slot
+      name: correct_password
+      value: False
+    - type: slot
+      name: object
+      value: "computer"
+    text: "Wrong password. Enter 'computer' again and try again."
+  - text: "You look confused. Or it's just your face...What do you want to do next?"
+
+  utter_move_bookshelf:
+  - condition:
+    - type: slot
+      name: correct_password
+      value: True
+    text: "It is quite heavy, but you move the bookrack. Behind it you find a golden key. You take the golden key and look around. Maybe you can open the locked door with it. It's worth a try..." 
+  - text: "Are you sure you know what you are doing? Doesn't look like it."
+
+  utter_open_kitchen_door:
+  - condition:
+    - type: slot
+      name: has_golden_key
+      value: True
+    text: "You walk to the door to open it with the key. You leave the bedroom of the lab behind and enter the new room. As you look around you notice it is a kitchen. It looks lived in. The trash can is full of papers and the dining table is cluttered with things. There is also a fridge. The pantry is locked with a combination lock. Of course there is a door leading into another room but it is also locked." 
+  - text: "The door seems to be locked. Oh it would be so nice to have a key..."
+
+
+actions:
+- action_manager
+- action_choose
+- action_react_to_reminder
+- action_set_reminder
+- action_validate_password
+- action_has_key
+- action_choose_kitchen_object
+- action_validate_combination
+- action_look_at_bathroom
+- action_has_wire
+- action_has_pliers
+- action_wire_bent
+
+slots:
+  name:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: nobody
+    mappings:
+    - type: from_entity
+      entity: name
+  combination:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: nothing_combined
+    mappings:
+    - type: from_entity
+      entity: combination
+  object:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: something
+    mappings:
+    - type: from_entity
+      entity: object
+  bookrack:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: nothing
+    mappings:
+    - type: from_entity
+      entity: bookrack
+  password:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: word
+    mappings:
+    - type: from_entity
+      entity: password
+  correct_password:
+    type: bool
+    initial_value: false
+    mappings:
+    - type: custom
+  has_golden_key:
+    type: bool
+    initial_value: false
+    mappings:
+    - type: custom
+  solved_crossword:
+    type: bool
+    initial_value: False
+    mappings:
+    - type: custom
+  kitchen_object:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: locked_kitchen
+    mappings:
+    - type: from_entity
+      entity: kitchen_object
+  mixture:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: mix_stuff
+    mappings:
+    - type: from_entity
+      entity: mixture
+  combination_right:
+    type: bool
+    initial_value: false
+    mappings:
+    - type: custom
+  postcard:
+    type: text
+    initial_value: postcard
+    mappings:
+    - type: from_entity
+      entity: postcard
+  pantry_object:
+    type: text
+    initial_value: pantryobject
+    mappings:
+    - type: from_entity
+      entity: pantry_object
+  wire_bent:
+    type: bool
+    initial_value: False
+    mappings:
+    - type: custom
+  bathroom_object:
+    type: text
+    initial_value: bathroomobject
+    mappings:
+    - type: from_entity
+      entity: bathroom_object
+  research_assistant:
+    type: bool
+    initial_value: False
+    mappings:
+    - type: custom
+  has_wire:
+    type: bool
+    initial_value: False
+    mappings:
+    - type: custom
+  has_pliers:
+    type: bool
+    initial_value: False
+    mappings:
+    - type: custom
+
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
