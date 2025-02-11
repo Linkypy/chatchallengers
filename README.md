@@ -1,6 +1,6 @@
 # Escape Reality - Chatbot Escape Room
 
-Development of a dystopian chatbot escape room game on the topic of climate change as a group project. This was part of the master module “Study Project Quality & Usability” at the TU berlin.
+Development of a dystopian chatbot escape room game on the topic of climate change as a group project. This was part of the master module “Study Project Quality & Usability” at the TU Berlin.
 Created with Python and rasa.
 
 What you need to set up:
